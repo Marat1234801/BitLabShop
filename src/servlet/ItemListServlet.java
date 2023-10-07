@@ -9,16 +9,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import model.Item;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-@WebServlet(value = "/")
-public class HomeServlet extends HttpServlet {
+@WebServlet(value = "/itemList")
+public class ItemListServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Item> items = new ArrayList<>();
-        items = ItemDBManager.getItems(6);
+        List<Item> items = ItemDBManager.getItems(null);
         req.setAttribute("items", items);
-        req.getRequestDispatcher("home.jsp").forward(req, resp);
+        req.getRequestDispatcher("itemList.jsp").forward(req, resp);
     }
 }
