@@ -22,14 +22,14 @@ public class UserDBManager {
         }
     }
 
-    public static List<User> getUsers(){
+    public static List<User> getUsers() {
         List<User> users = new ArrayList<>();
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM \"itemShop\".USERS"
             );
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 User user = new User();
                 user.setId(resultSet.getLong("id"));
                 user.setEmail(resultSet.getString("email"));
@@ -38,13 +38,13 @@ public class UserDBManager {
                 users.add(user);
             }
             statement.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return users;
     }
 
-    public static User authorizationUser(String email, String password){
+    public static User authorizationUser(String email, String password) {
         User user = null;
         try {
             PreparedStatement statement = connection.prepareStatement(
@@ -53,7 +53,7 @@ public class UserDBManager {
             statement.setString(1, email);
             statement.setString(2, password);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 user = new User();
                 user.setId(resultSet.getLong("id"));
                 user.setEmail(resultSet.getString("email"));
@@ -61,17 +61,17 @@ public class UserDBManager {
                 user.setFullName(resultSet.getString("full_name"));
             }
             statement.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return user;
     }
 
-    public static void editUser(User user){
-        if(user == null){
+    public static void editUser(User user) {
+        if (user == null) {
             return;
         }
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(
                     "UPDATE \"itemShop\".users " +
                             "SET EMAIL = ?, PASSWORD = ?, FULL_NAME = ? " +
@@ -83,20 +83,20 @@ public class UserDBManager {
             statement.setLong(4, user.getId());
             statement.executeUpdate();
             statement.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static User getUserById(Long id){
+    public static User getUserById(Long id) {
         User user = null;
-        try{
+        try {
             PreparedStatement statement = connection.prepareStatement(
                     "SELECT * FROM \"itemShop\".USERS WHERE ID = ?"
             );
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
-            if(resultSet.next()){
+            if (resultSet.next()) {
                 user = new User();
                 user.setId(resultSet.getLong("id"));
                 user.setEmail(resultSet.getString("email"));
@@ -104,9 +104,59 @@ public class UserDBManager {
                 user.setPassword(resultSet.getString("password"));
             }
             statement.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return user;
+    }
+
+    public static User getUserByEmail(String email) {
+        User user = null;
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "SELECT * FROM \"itemShop\".USERS WHERE EMAIL = ?"
+            );
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                user = new User();
+                user.setId(resultSet.getLong("id"));
+                user.setEmail(resultSet.getString("email"));
+                user.setFullName(resultSet.getString("fuLL_name"));
+                user.setPassword(resultSet.getString("password"));
+            }
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    public static void registerUser(User user) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "INSERT INTO \"itemShop\".USERS(EMAIL, PASSWORD, FULL_NAME) VALUES (?, ?, ?)"
+            );
+            statement.setString(1, user.getEmail());
+            statement.setString(2, user.getPassword());
+            statement.setString(3, user.getFullName());
+            statement.executeUpdate();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void deleteUserById(Long id) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(
+                    "DELETE FROM \"itemShop\".USERS WHERE ID = ?"
+            );
+            statement.setLong(1, id);
+            statement.executeUpdate();
+            statement.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -29,8 +29,6 @@
                     <th scope="col">email</th>
                     <th scope="col">full_name</th>
                     <th scope="col">password</th>
-                    <th scope="col">Edit</th>
-                    <th scope="col">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,8 +40,6 @@
                         <td><%=user.getEmail()%></td>
                         <td><%=user.getFullName()%></td>
                         <td><%=user.getPassword()%></td>
-                        <td><button class="btn btn-warning">Edit</button></td>
-                        <td><button class="btn btn-danger">Delete</button></td>
                     </tr>
                 <%
                     }

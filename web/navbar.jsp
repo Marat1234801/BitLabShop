@@ -12,7 +12,7 @@
 %>
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">BITLAB Shop</a>
+        <a class="navbar-brand" href="/">BITLAB Shop</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -42,8 +42,13 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/editUser?id=<%=account.getId()%>">Edit account</a></li>
-                            <li><a class="dropdown-item" href="/addItem.jsp">Delete account</a></li>
-                            <li><a class="dropdown-item" href="/addItem.jsp">Log out</a></li>
+                            <li>
+                                <form action="/deleteUser" method="post">
+                                    <input type="hidden" name="id" value="<%=account.getId()%>">
+                                    <button class="dropdown-item">Delete account</button>
+                                </form>
+                            </li>
+                            <li><a class="dropdown-item" href="/logout">Log out</a></li>
                         </ul>
                     </li>
                 <%
@@ -52,14 +57,13 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="/login">Sign in</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/registration">Sign up</a>
+                    </li>
                 <%
                     }
                 %>
             </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-success" type="submit">Search</button>
-            </form>
         </div>
     </div>
 </nav>
